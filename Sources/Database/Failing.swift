@@ -52,7 +52,7 @@ extension Client {
     },
     sawUser: { _ in .failing("Database.Client.sawUser") },
     updateEmailSettings: { _, _ in .failing("Database.Client.updateEmailSettings") },
-    updateEpisodeProgress: { _, _, _ in .failing("Database.Client.updateEpisodeProgress") },
+    updateEpisodeProgress: { _, _, _, _ in .failing("Database.Client.updateEpisodeProgress") },
     updateGift: { _, _ in .failing("Database.Client.updateGift") },
     updateGiftStatus: { _, _, _ in .failing("Database.Client.updateGiftStatus") },
     updateStripeSubscription: { _ in .failing("Database.Client.updateStripeSubscription") },

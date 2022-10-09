@@ -147,7 +147,12 @@ private let updateProgress:
     }
 
     if isEpisodeViewable(for: permission) {
-      return Current.database.updateEpisodeProgress(episode.sequence, percent, user.id)
+      return Current.database.updateEpisodeProgress(
+        episode.sequence,
+        percent,
+        percent >= 90,
+        user.id
+      )
         .run
         .flatMap { _ in
           conn

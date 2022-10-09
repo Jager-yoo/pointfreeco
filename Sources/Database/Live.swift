@@ -809,6 +809,13 @@ extension Client {
             "stripe_payment_intent_status" character varying NOT NULL DEFAULT '\(raw: PaymentIntent.Status.requiresPaymentMethod.rawValue)'
             """
           ),
+          database.run(
+            """
+            ALTER TABLE "episode_progresses"
+            ADD COLUMN IF NOT EXISTS
+            "is_finished" boolean NOT NULL DEFAULT FALSE
+            """
+          ),
         ])
         .map(const(unit))
 
@@ -870,13 +877,15 @@ extension Client {
         return sequence([deleteEmailSettings, updateEmailSettings])
           .map(const(unit))
       },
-      updateEpisodeProgress: { episodeSequence, percent, userId in
+      updateEpisodeProgress: { episodeSequence, percent, isFinished, userId in
         pool.sqlDatabase.raw(
           """
-          INSERT INTO "episode_progresses" ("episode_sequence", "percent", "user_id")
-          VALUES (\(bind: episodeSequence), \(bind: percent), \(bind: userId))
+          INSERT INTO "episode_progresses" ("episode_sequence", "percent", "user_id", "is_finished")
+          VALUES (\(bind: episodeSequence), \(bind: percent), \(bind: userId), \(bind: isFinished))
           ON CONFLICT ("episode_sequence", "user_id") DO UPDATE
-          SET "percent" = \(bind: percent)
+          SET
+            "percent" = \(bind: percent),
+            "is_finished" = "episode_progresses"."is_finished" OR \(bind: isFinished)
           """
         )
         .run()

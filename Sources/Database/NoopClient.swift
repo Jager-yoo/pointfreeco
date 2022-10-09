@@ -43,7 +43,7 @@ extension Client {
     removeTeammateUserIdFromSubscriptionId: { _, _ in throwE(NoopError()) },
     sawUser: { _ in throwE(NoopError()) },
     updateEmailSettings: { _, _ in throwE(NoopError()) },
-    updateEpisodeProgress: { _, _, _ in throwE(NoopError()) },
+    updateEpisodeProgress: { _, _, _, _ in throwE(NoopError()) },
     updateGift: { _, _ in throwE(NoopError()) },
     updateGiftStatus: { _, _, _ in throwE(NoopError()) },
     updateStripeSubscription: { _ in throwE(NoopError()) },
